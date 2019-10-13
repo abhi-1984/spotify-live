@@ -53,12 +53,12 @@ const ComingSoonTag = styled.div`
   font-weight: 700;
 `;
 
-export default function Header({ avatarSource }) {
+export default function Header({ avatarSource, toggleSidebar }) {
   return (
     <HeaderWrapper>
       <LogoIcon />
       <Links>
-        <Link activeLink={true}>
+        <Link onClick={toggleSidebar} activeLink={true}>
           <Label>Favourites</Label>
         </Link>
         <Link>

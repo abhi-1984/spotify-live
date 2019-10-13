@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './App.css';
 import styled from 'styled-components';
 import axios from 'axios';
-import { UserTracks, SpotifyApiContext, UserTop } from 'react-spotify-api';
+import { SpotifyApiContext } from 'react-spotify-api';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Sidebar from './components/Sidebar';
 
 const AppWrapper = styled.div`
   min-width: 100vw;
@@ -37,7 +38,9 @@ export default class App extends React.Component {
       positionTimestamp: '00:00',
       durationTimestamp: '00:00',
       player_init_error: false,
+      favouriteTrackURIS: [],
       favouriteTracks: [],
+      isSiderbarOpen: true,
     };
     this.playerCheckInterval = null;
   }
@@ -216,6 +219,7 @@ export default class App extends React.Component {
   };
 
   onVolumeSliderChange = (e, value) => {
+    console.log('volume e is ', e, ' and value is ', value);
     let volume = value / 100;
     this.setState({ volumeSliderValue: value });
     this.player.setVolume(volume);
@@ -242,7 +246,7 @@ export default class App extends React.Component {
 
   fetchUserTracks = () => {
     let uris = [];
-    const { token, favouriteTracks } = this.state;
+    const { token } = this.state;
 
     console.log('token is ', token);
 
@@ -257,12 +261,20 @@ export default class App extends React.Component {
       })
       .then(response => {
         console.log('track response is ', response);
+
         response.data.items.map(track => uris.push(track.track.uri));
         this.setState({
-          favouriteTracks: uris,
+          favouriteTrackURIS: uris,
+          favouriteTracks: response.data.items,
         });
       })
       .catch(err => console.log(err));
+  };
+
+  toggleSidebar = () => {
+    this.setState({
+      isSiderbarOpen: !this.state.isSiderbarOpen,
+    });
   };
 
   componentDidMount() {
@@ -281,31 +293,45 @@ export default class App extends React.Component {
       positionSliderValue,
       isRepeatModeOn,
       playing,
+      isSiderbarOpen,
+      favouriteTrackURIS,
+      favouriteTracks,
     } = this.state;
 
     return (
       <SpotifyApiContext.Provider value={token}>
         <AppWrapper>
           {isLoggedIn && this.player && playingInfo ? (
-            <Home
-              currentPosition={positionTimestamp}
-              sliderPositionValue={positionSliderValue}
-              currentvolume={volumeSliderValue}
-              onVolumeChange={this.onVolumeSliderChange}
-              onSeek={this.onSeekSliderChange}
-              isRepeatModeOn={isRepeatModeOn}
-              handleRepeat={() =>
-                this.repeatSong(playingInfo.track_window.current_track.uri)
-              }
-              handlePreviousClick={this.onPrevClick}
-              handleNextClick={this.onNextClick}
-              handleTogglePlay={this.onPlayClick}
-              totalDuration={durationTimestamp}
-              isPlaying={playing}
-              nextTracks={playingInfo.track_window.next_tracks}
-              currentTrack={playingInfo.track_window.current_track}
-              avatar={user.avatar}
-            />
+            <Fragment>
+              <Home
+                currentPosition={positionTimestamp}
+                sliderPositionValue={positionSliderValue}
+                currentvolume={volumeSliderValue}
+                onVolumeChange={this.onVolumeSliderChange}
+                onSeek={this.onSeekSliderChange}
+                isRepeatModeOn={isRepeatModeOn}
+                handleRepeat={() =>
+                  this.repeatSong(playingInfo.track_window.current_track.uri)
+                }
+                toggleSidebar={this.toggleSidebar}
+                handlePreviousClick={this.onPrevClick}
+                handleNextClick={this.onNextClick}
+                handleTogglePlay={this.onPlayClick}
+                totalDuration={durationTimestamp}
+                isPlaying={playing}
+                nextTracks={playingInfo.track_window.next_tracks}
+                currentTrack={playingInfo.track_window.current_track}
+                avatar={user.avatar}
+              />
+              {isSiderbarOpen && (
+                <Sidebar
+                  favouriteTrackURIS={favouriteTrackURIS}
+                  favouriteTracks={favouriteTracks}
+                  toggleSidebar={this.toggleSidebar}
+                  token={token}
+                />
+              )}
+            </Fragment>
           ) : (
             <Login />
           )}

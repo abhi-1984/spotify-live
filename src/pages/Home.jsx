@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import { motion } from 'framer-motion';
@@ -237,17 +237,15 @@ export default function Home({
   currentVolume,
   onVolumeChange,
   nextTracks,
+  toggleSidebar,
 }) {
-  const [isRepeat, setRepeat] = useState(isRepeatModeOn);
-
   const onRepeatButtonPressed = () => {
-    // setRepeat(!isRepeatModeOn);
     handleRepeat();
   };
 
   return (
     <HomeWrapper>
-      <Header avatarSource={avatar} />
+      <Header toggleSidebar={toggleSidebar} avatarSource={avatar} />
 
       <PlayerView>
         <WrapperView>
