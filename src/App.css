@@ -1,22 +1,33 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  outline: none;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+body {
+  font-family: 'Maison Neue';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+.MuiSlider-root {
+  color: #fff !important;
+  grid-area: 1 / 1 / span 1 / span 3;
+}
+
+.MuiSlider-rail,
+.MuiSlider-track {
+  height: 4px !important;
+  border-radius: 4px !important;
+}
+
+.MuiSlider-thumb {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50%;
+  margin-top: -6px !important;
+  border: 2px solid #000;
 }
