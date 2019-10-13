@@ -7,7 +7,7 @@ const TrackWrapper = styled.div`
 
 const TrackCover = styled.img`
   width: 100%;
-  height: 160px;
+  height: 240px;
   margin-bottom: 16px;
   border-radius: 4px;
   object-fit: cover;

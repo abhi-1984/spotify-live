@@ -129,7 +129,7 @@ const Caption = styled.div`
 const NextTracksWrapper = styled.div`
   display: grid;
   grid-gap: 40px;
-  grid-template-columns: repeat(2, 240px);
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
 `;
 
 const DurationSlider = styled(Slider)``;
