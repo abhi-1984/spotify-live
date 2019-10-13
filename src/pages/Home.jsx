@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -128,7 +128,7 @@ const Caption = styled.div`
 
 const NextTracksWrapper = styled.div`
   display: grid;
-  grid-gap: 64px;
+  grid-gap: 40px;
   grid-template-columns: repeat(2, 240px);
 `;
 
@@ -245,10 +245,15 @@ export default function Home({
   isSiderbarOpen,
   topTracks,
   topTracksURIS,
+  setBackgroundImage,
 }) {
   const onRepeatButtonPressed = () => {
     handleRepeat();
   };
+
+  useEffect(() => {
+    setBackgroundImage(currentTrack.album.images[2].url);
+  }, [setBackgroundImage, currentTrack.album.images]);
 
   return (
     <HomeWrapper>

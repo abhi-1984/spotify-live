@@ -10,7 +10,8 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
 `;
 
 const Avatar = styled.img`

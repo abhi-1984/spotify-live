@@ -5,6 +5,7 @@ import axios from 'axios';
 import { SpotifyApiContext } from 'react-spotify-api';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Vibrant from 'node-vibrant';
 
 const AppWrapper = styled.div`
   min-width: 100vw;
@@ -13,8 +14,23 @@ const AppWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgb(0, 0, 0)),
-    linear-gradient(90deg, rgb(255, 0, 136), rgb(0, 153, 255));
+  background: ${props =>
+    props.backDrop
+      ? props.backDrop
+      : `linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgb(0, 0, 0)),
+    linear-gradient(90deg, rgb(255, 0, 136), rgb(0, 153, 255))`};
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000;
+    z-index: -1;
+  }
 `;
 
 export default class App extends React.Component {
@@ -42,9 +58,25 @@ export default class App extends React.Component {
       isSiderbarOpen: false,
       topTracks: [],
       topTracksURIS: [],
+      backDrop: '',
     };
     this.playerCheckInterval = null;
   }
+
+  setBackgroundImage = url => {
+    Vibrant.from(url)
+      .getPalette()
+      .then(palette => {
+        let rgb = palette.DarkMuted._rgb.join(',');
+        let rgb2 = palette.DarkVibrant._rgb.join(', ');
+        let color = 'rgba(' + rgb + ', 0.24)';
+        let color2 = 'rgba(' + rgb2 + ', 0.32)';
+
+        let bgImage = `linear-gradient(${color}, ${color2} 85%)`;
+        console.log('bg image is ', bgImage);
+        this.setState({ backDrop: bgImage });
+      });
+  };
 
   getHashParams = () => {
     var hashParams = {};
@@ -326,17 +358,19 @@ export default class App extends React.Component {
       favouriteTracks,
       topTracks,
       topTracksURIS,
+      backDrop,
     } = this.state;
 
     return (
       <SpotifyApiContext.Provider value={token}>
-        <AppWrapper>
+        <AppWrapper backDrop={backDrop}>
           {isLoggedIn && this.player && playingInfo ? (
             <Fragment>
               <Home
                 currentPosition={positionTimestamp}
                 sliderPositionValue={positionSliderValue}
                 currentvolume={volumeSliderValue}
+                setBackgroundImage={this.setBackgroundImage}
                 onVolumeChange={this.onVolumeSliderChange}
                 onSeek={this.onSeekSliderChange}
                 isRepeatModeOn={isRepeatModeOn}
