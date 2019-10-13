@@ -8,6 +8,7 @@
     "framer-motion": "^1.6.12",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-onclickoutside": "^6.9.0",
     "react-scripts": "3.2.0",
     "react-spotify-api": "^2.4.0",
     "styled-components": "^4.4.0"

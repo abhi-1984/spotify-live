@@ -17,56 +17,44 @@ const Avatar = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  margin-left: 40px;
 `;
 
-const Links = styled.div`
+const MenuIcon = styled.div`
+  width: 24px;
+  height: 24px;
+  display: grid;
+  grid-template-rows: repeat(2, 2px);
+  justify-items: center;
+  align-items: center;
+  grid-row-gap: 8px;
+  cursor: pointer;
+  align-content: center;
+`;
+
+const IconStick = styled.div`
+  width: 16px;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 2px;
+`;
+
+const RightSection = styled.div`
   display: flex;
   align-items: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-const Link = styled.div`
-  margin: 0 24px;
-  color: ${props => (props.activeLink ? '#fff' : 'rgba(255,255,255,0.6)')};
-  position: relative;
-  cursor: pointer;
-`;
-
-const Label = styled.div`
-  font-size: 20px;
-  line-height: 32px;
-  font-weight: 500;
-`;
-
-const ComingSoonTag = styled.div`
-  position: absolute;
-  padding: 3px;
-  border-radius: 2px;
-  background-color: #ff932f;
-  color: #000;
-  font-size: 10px;
-  top: -2px;
-  right: -40px;
-  text-transform: uppercase;
-  font-weight: 700;
 `;
 
 export default function Header({ avatarSource, toggleSidebar }) {
   return (
     <HeaderWrapper>
       <LogoIcon />
-      <Links>
-        <Link onClick={toggleSidebar} activeLink={true}>
-          <Label>Favourites</Label>
-        </Link>
-        <Link>
-          <Label>For You</Label>
-          <ComingSoonTag>Soon</ComingSoonTag>
-        </Link>
-      </Links>
-      <Avatar alt="Spotify Live" src={avatarSource} />
+      <RightSection>
+        <MenuIcon onClick={toggleSidebar}>
+          <IconStick />
+          <IconStick />
+        </MenuIcon>
+        <Avatar alt="Spotify Live" src={avatarSource} />
+      </RightSection>
     </HeaderWrapper>
   );
 }

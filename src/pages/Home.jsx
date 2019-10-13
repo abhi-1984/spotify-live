@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Track from '../components/Track';
 import { Slider } from '@material-ui/core';
 import {
@@ -12,6 +12,7 @@ import {
   RepeatIcon,
   VolumeIcon,
 } from '../components/Icons';
+import Sidebar from '../components/Sidebar';
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -238,6 +239,10 @@ export default function Home({
   onVolumeChange,
   nextTracks,
   toggleSidebar,
+  favouriteTrackURIS,
+  favouriteTracks,
+  token,
+  isSiderbarOpen,
 }) {
   const onRepeatButtonPressed = () => {
     handleRepeat();
@@ -246,7 +251,16 @@ export default function Home({
   return (
     <HomeWrapper>
       <Header toggleSidebar={toggleSidebar} avatarSource={avatar} />
-
+      <AnimatePresence>
+        {isSiderbarOpen && (
+          <Sidebar
+            favouriteTrackURIS={favouriteTrackURIS}
+            favouriteTracks={favouriteTracks}
+            toggleSidebar={toggleSidebar}
+            token={token}
+          />
+        )}
+      </AnimatePresence>
       <PlayerView>
         <WrapperView>
           <CoverArt src={currentTrack.album.images[2].url} />

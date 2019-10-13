@@ -9,6 +9,15 @@ export const LogoIcon = props => (
   </svg>
 );
 
+export const SidebarExpanderIcon = props => (
+  <svg width={7} height={20} fill="none" {...props}>
+    <path
+      d="M3.81 18.123c.245.527.723.918 1.329.918 1.006-.01 1.66-.732 1.66-1.582 0-.469-.274-1.064-.508-1.572L3.723 9.939 6.29 4.002c.234-.508.508-1.113.508-1.582 0-.84-.654-1.572-1.66-1.572-.606 0-1.084.38-1.328.918L.988 8.22C.695 8.875.49 9.334.49 9.939c0 .606.205 1.065.498 1.72l2.823 6.464z"
+      fill="#fff"
+    />
+  </svg>
+);
+
 export const PauseIcon = props => (
   <svg width={41} height={40} fill="none" {...props}>
     <path

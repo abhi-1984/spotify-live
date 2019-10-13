@@ -322,15 +322,11 @@ export default class App extends React.Component {
                 nextTracks={playingInfo.track_window.next_tracks}
                 currentTrack={playingInfo.track_window.current_track}
                 avatar={user.avatar}
+                favouriteTrackURIS={favouriteTrackURIS}
+                favouriteTracks={favouriteTracks}
+                token={token}
+                isSiderbarOpen={isSiderbarOpen}
               />
-              {isSiderbarOpen && (
-                <Sidebar
-                  favouriteTrackURIS={favouriteTrackURIS}
-                  favouriteTracks={favouriteTracks}
-                  toggleSidebar={this.toggleSidebar}
-                  token={token}
-                />
-              )}
             </Fragment>
           ) : (
             <Login />

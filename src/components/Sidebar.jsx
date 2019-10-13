@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-const SidebarWrapper = styled.div`
+const SidebarWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
   right: 0;
@@ -10,6 +10,7 @@ const SidebarWrapper = styled.div`
   bottom: 0;
   backdrop-filter: blur(10px);
   background-color: rgba(0, 0, 0, 0.9);
+  z-index: 10;
 `;
 
 const SidebarHeader = styled.div`
@@ -28,7 +29,7 @@ const SidebarTitle = styled.div`
   font-weight: 600;
 `;
 
-const CloseView = styled.div`
+const CloseView = styled(motion.div)`
   width: 64px;
   height: 32px;
   border-radius: 16px;
@@ -43,7 +44,7 @@ const CloseView = styled.div`
   cursor: pointer;
 `;
 
-const SidebarBody = styled.div`
+const SidebarBody = styled(motion.div)`
   width: 100%;
   height: calc(100% - 64px);
   overflow-y: scroll;
@@ -84,6 +85,27 @@ const TrackArtist = styled.div`
   opacity: 0.6;
 `;
 
+const list = {
+  visible: {
+    opacity: 1,
+    transition: {
+      when: 'beforeChildren',
+      staggerChildren: 0.05,
+    },
+  },
+  hidden: {
+    opacity: 0,
+    transition: {
+      when: 'afterChildren',
+    },
+  },
+};
+
+const items = {
+  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 10 },
+};
+
 export default function Sidebar({
   toggleSidebar,
   favouriteTrackURIS,
@@ -102,17 +124,47 @@ export default function Sidebar({
         uris: uris,
         offset: { uri: selectedUri },
       }),
-    });
+    }).then(toggleSidebar());
   };
 
+  useEffect(() => {
+    const handleEsc = event => {
+      if (event.keyCode === 27) {
+        toggleSidebar();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [toggleSidebar]);
+
   return (
-    <SidebarWrapper>
+    <SidebarWrapper
+      initial={{ x: '100%' }}
+      animate={{ x: 0 }}
+      exit={{ x: '100%' }}
+      transition={{ duration: 0.3 }}
+    >
       <SidebarHeader>
         <SidebarTitle>Browse</SidebarTitle>
-        <CloseView onClick={toggleSidebar}>close</CloseView>
+        <CloseView
+          whileHover={{
+            scale: 1.08,
+            backgroundColor: '#fff',
+            color: '#000',
+          }}
+          whileTap={{
+            scale: 0.96,
+          }}
+          onClick={toggleSidebar}
+        >
+          close
+        </CloseView>
       </SidebarHeader>
       {console.log('favouriteTracks ', favouriteTracks)}
-      <SidebarBody>
+      <SidebarBody initial="hidden" animate="visible" variants={list}>
         {favouriteTracks.map(track => (
           <TrackRow
             whileHover={{
@@ -121,6 +173,7 @@ export default function Sidebar({
             whileTap={{
               scale: 0.95,
             }}
+            variants={items}
             key={track.track.id}
             onClick={() => playTracks(favouriteTrackURIS, track.track.uri)}
           >
