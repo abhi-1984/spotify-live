@@ -5,7 +5,6 @@ import axios from 'axios';
 import { SpotifyApiContext } from 'react-spotify-api';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import Sidebar from './components/Sidebar';
 
 const AppWrapper = styled.div`
   min-width: 100vw;
@@ -40,7 +39,9 @@ export default class App extends React.Component {
       player_init_error: false,
       favouriteTrackURIS: [],
       favouriteTracks: [],
-      isSiderbarOpen: true,
+      isSiderbarOpen: false,
+      topTracks: [],
+      topTracksURIS: [],
     };
     this.playerCheckInterval = null;
   }
@@ -91,6 +92,7 @@ export default class App extends React.Component {
             });
             this.handleLogin();
             this.fetchUserTracks();
+            this.fetchTopTracks();
           })
           .catch(err => console.log(err));
       } else {
@@ -271,6 +273,32 @@ export default class App extends React.Component {
       .catch(err => console.log(err));
   };
 
+  fetchTopTracks = () => {
+    let uris = [];
+    const { token } = this.state;
+
+    console.log('token is ', token);
+
+    axios
+      .get('https://api.spotify.com/v1/me/top/tracks', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          limit: 50,
+        },
+      })
+      .then(response => {
+        console.log('top track response is ', response.data.items);
+        response.data.items.map(track => uris.push(track.uri));
+        this.setState({
+          topTracksURIS: uris,
+          topTracks: response.data.items,
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
   toggleSidebar = () => {
     this.setState({
       isSiderbarOpen: !this.state.isSiderbarOpen,
@@ -296,6 +324,8 @@ export default class App extends React.Component {
       isSiderbarOpen,
       favouriteTrackURIS,
       favouriteTracks,
+      topTracks,
+      topTracksURIS,
     } = this.state;
 
     return (
@@ -326,6 +356,8 @@ export default class App extends React.Component {
                 favouriteTracks={favouriteTracks}
                 token={token}
                 isSiderbarOpen={isSiderbarOpen}
+                topTracks={topTracks}
+                topTracksURIS={topTracksURIS}
               />
             </Fragment>
           ) : (

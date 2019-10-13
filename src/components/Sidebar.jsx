@@ -140,6 +140,8 @@ export default function Sidebar({
   favouriteTrackURIS,
   favouriteTracks,
   token,
+  topTracks,
+  topTracksURIS,
 }) {
   const [tabs, setTabs] = useState(['Favourites', 'For You']);
   const [activeTab, setActiveTab] = useState('Favourites');
@@ -195,12 +197,12 @@ export default function Sidebar({
           close
         </CloseView>
       </SidebarHeader>
-      {console.log('favouriteTracks ', favouriteTracks)}
+      {console.log('topTracks ', topTracks)}
       <Tabs>
         {tabs.map((tab, index) => (
           <Tab
             onClick={() => setActiveTab(tab)}
-            key="index"
+            key={index}
             isActive={activeTab === tab}
           >
             {tab}
@@ -208,29 +210,50 @@ export default function Sidebar({
         ))}
       </Tabs>
       <SidebarBody initial="hidden" animate="visible" variants={list}>
-        {activeTab === 'Favourites'
-          ? favouriteTracks.map(track => (
-              <TrackRow
-                whileHover={{
-                  backgroundColor: 'rgba(255,255,255,0.08)',
-                }}
-                whileTap={{
-                  scale: 0.95,
-                }}
-                variants={items}
-                key={track.track.id}
-                onClick={() => playTracks(favouriteTrackURIS, track.track.uri)}
-              >
-                <TrackCover src={track.track.album.images[2].url} />
-                <TrackInfo>
-                  <TrackName>{track.track.name}</TrackName>
-                  <TrackArtist>
-                    {track.track.artists.map(artist => artist.name).join(',')}
-                  </TrackArtist>
-                </TrackInfo>
-              </TrackRow>
-            ))
-          : null}
+        {activeTab === 'Favourites' &&
+          favouriteTracks.map((track, index) => (
+            <TrackRow
+              whileHover={{
+                backgroundColor: 'rgba(255,255,255,0.08)',
+              }}
+              whileTap={{
+                scale: 0.95,
+              }}
+              variants={items}
+              key={index}
+              onClick={() => playTracks(favouriteTrackURIS, track.track.uri)}
+            >
+              <TrackCover src={track.track.album.images[2].url} />
+              <TrackInfo>
+                <TrackName>{track.track.name}</TrackName>
+                <TrackArtist>
+                  {track.track.artists.map(artist => artist.name).join(',')}
+                </TrackArtist>
+              </TrackInfo>
+            </TrackRow>
+          ))}
+        {activeTab === 'For You' &&
+          topTracks.map((track, index) => (
+            <TrackRow
+              whileHover={{
+                backgroundColor: 'rgba(255,255,255,0.08)',
+              }}
+              whileTap={{
+                scale: 0.95,
+              }}
+              variants={items}
+              key={index}
+              onClick={() => playTracks(topTracksURIS, track.uri)}
+            >
+              <TrackCover src={track.album.images[2].url} />
+              <TrackInfo>
+                <TrackName>{track.name}</TrackName>
+                <TrackArtist>
+                  {track.artists.map(artist => artist.name).join(',')}
+                </TrackArtist>
+              </TrackInfo>
+            </TrackRow>
+          ))}
       </SidebarBody>
     </SidebarWrapper>
   );

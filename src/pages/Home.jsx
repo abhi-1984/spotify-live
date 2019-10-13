@@ -243,6 +243,8 @@ export default function Home({
   favouriteTracks,
   token,
   isSiderbarOpen,
+  topTracks,
+  topTracksURIS,
 }) {
   const onRepeatButtonPressed = () => {
     handleRepeat();
@@ -251,11 +253,14 @@ export default function Home({
   return (
     <HomeWrapper>
       <Header toggleSidebar={toggleSidebar} avatarSource={avatar} />
+      {console.log('from home ', topTracks)}
       <AnimatePresence>
         {isSiderbarOpen && (
           <Sidebar
             favouriteTrackURIS={favouriteTrackURIS}
             favouriteTracks={favouriteTracks}
+            topTracks={topTracks}
+            topTracksURIS={topTracksURIS}
             toggleSidebar={toggleSidebar}
             token={token}
           />
