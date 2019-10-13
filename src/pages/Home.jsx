@@ -23,7 +23,7 @@ const HomeWrapper = styled.div`
   grid-template-areas: 'header' 'player' 'seeker' 'controls' 'spacer';
 `;
 
-const PlayerView = styled.div`
+const PlayerView = styled(motion.div)`
   width: 100%;
   grid-area: player;
 `;
@@ -271,7 +271,10 @@ export default function Home({
           />
         )}
       </AnimatePresence>
-      <PlayerView>
+      <PlayerView
+        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, scale: 0.9 }}
+      >
         <WrapperView>
           <CoverArt src={currentTrack.album.images[2].url} />
           <PlayerDetailsView>

@@ -4,7 +4,10 @@ import { LogoIcon } from '../components/Icons';
 
 export default function Login() {
   return (
-    <LoginPage>
+    <LoginPage
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+    >
       <LogoIcon />
       <Paragraph>
         Soundtrack your life with Spotify. Choose what you want to listen to, or

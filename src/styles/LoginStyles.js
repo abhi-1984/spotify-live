@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const LoginPage = styled.div`
+export const LoginPage = styled(motion.div)`
   height: 100%;
   max-width: 480px;
   margin: 0 auto;
