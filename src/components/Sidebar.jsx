@@ -85,6 +85,35 @@ const TrackArtist = styled.div`
   opacity: 0.6;
 `;
 
+const Tabs = styled.div`
+  width: 100%;
+  margin: 16px auto;
+  margin-top: 20px;
+  height: 40px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`;
+
+const Tab = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: ${props => (props.isActive ? '#fff' : 'rgba(255,255,255,0.6)')};
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom-color: ${props =>
+    props.isActive ? '#fff' : 'rgba(255,255,255,0.08)'};
+  transition: all 300ms ease-in-out;
+  &:hover {
+    color: #fff;
+  }
+`;
+
 const list = {
   visible: {
     opacity: 1,
@@ -112,6 +141,9 @@ export default function Sidebar({
   favouriteTracks,
   token,
 }) {
+  const [tabs, setTabs] = useState(['Favourites', 'For You']);
+  const [activeTab, setActiveTab] = useState('Favourites');
+
   const playTracks = (uris, selectedUri) => {
     console.log('uris are ', uris);
     fetch('https://api.spotify.com/v1/me/player/play', {
@@ -164,28 +196,41 @@ export default function Sidebar({
         </CloseView>
       </SidebarHeader>
       {console.log('favouriteTracks ', favouriteTracks)}
-      <SidebarBody initial="hidden" animate="visible" variants={list}>
-        {favouriteTracks.map(track => (
-          <TrackRow
-            whileHover={{
-              backgroundColor: 'rgba(255,255,255,0.08)',
-            }}
-            whileTap={{
-              scale: 0.95,
-            }}
-            variants={items}
-            key={track.track.id}
-            onClick={() => playTracks(favouriteTrackURIS, track.track.uri)}
+      <Tabs>
+        {tabs.map((tab, index) => (
+          <Tab
+            onClick={() => setActiveTab(tab)}
+            key="index"
+            isActive={activeTab === tab}
           >
-            <TrackCover src={track.track.album.images[2].url} />
-            <TrackInfo>
-              <TrackName>{track.track.name}</TrackName>
-              <TrackArtist>
-                {track.track.artists.map(artist => artist.name).join(',')}
-              </TrackArtist>
-            </TrackInfo>
-          </TrackRow>
+            {tab}
+          </Tab>
         ))}
+      </Tabs>
+      <SidebarBody initial="hidden" animate="visible" variants={list}>
+        {activeTab === 'Favourites'
+          ? favouriteTracks.map(track => (
+              <TrackRow
+                whileHover={{
+                  backgroundColor: 'rgba(255,255,255,0.08)',
+                }}
+                whileTap={{
+                  scale: 0.95,
+                }}
+                variants={items}
+                key={track.track.id}
+                onClick={() => playTracks(favouriteTrackURIS, track.track.uri)}
+              >
+                <TrackCover src={track.track.album.images[2].url} />
+                <TrackInfo>
+                  <TrackName>{track.track.name}</TrackName>
+                  <TrackArtist>
+                    {track.track.artists.map(artist => artist.name).join(',')}
+                  </TrackArtist>
+                </TrackInfo>
+              </TrackRow>
+            ))
+          : null}
       </SidebarBody>
     </SidebarWrapper>
   );
