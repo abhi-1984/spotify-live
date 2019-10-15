@@ -1,19 +1,19 @@
 @font-face {
-	font-family: 'Maison Neue';
-	src: url('MaisonNeue-LightItalic.woff2') format('woff2'),
-		url('MaisonNeue-LightItalic.woff') format('woff'),
-		url('MaisonNeue-LightItalic.ttf') format('truetype');
-	font-weight: 300;
-	font-style: italic;
+  font-family: 'Maison Neue';
+  src: url('MaisonNeue-LightItalic.woff2') format('woff2'),
+    url('MaisonNeue-LightItalic.woff') format('woff'),
+    url('MaisonNeue-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
 }
 
 @font-face {
-	font-family: 'Maison Neue';
-	src: url('MaisonNeue-Light.woff2') format('woff2'),
-		url('MaisonNeue-Light.woff') format('woff'),
-		url('MaisonNeue-Light.ttf') format('truetype');
-	font-weight: 300;
-	font-style: normal;
+  font-family: 'Maison Neue';
+  src: url('MaisonNeue-Light.woff2') format('woff2'),
+    url('MaisonNeue-Light.woff') format('woff'),
+    url('MaisonNeue-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
 }
 
 /*@font-face {
@@ -26,12 +26,12 @@
 }*/
 
 @font-face {
-	font-family: 'Maison Neue';
-	src: url('MaisonNeue-Book.woff2') format('woff2'),
-		url('MaisonNeue-Book.woff') format('woff'),
-		url('MaisonNeue-Book.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
+  font-family: 'Maison Neue';
+  src: url('MaisonNeue-Book.woff2') format('woff2'),
+    url('MaisonNeue-Book.woff') format('woff'),
+    url('MaisonNeue-Book.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 /*@font-face {
@@ -53,30 +53,30 @@
 }*/
 
 @font-face {
-	font-family: 'Maison Neue';
-	src: url('MaisonNeue-BookItalic.woff2') format('woff2'),
-		url('MaisonNeue-BookItalic.woff') format('woff'),
-		url('MaisonNeue-BookItalic.ttf') format('truetype');
-	font-weight: normal;
-	font-style: italic;
+  font-family: 'Maison Neue';
+  src: url('MaisonNeue-BookItalic.woff2') format('woff2'),
+    url('MaisonNeue-BookItalic.woff') format('woff'),
+    url('MaisonNeue-BookItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 @font-face {
-	font-family: 'Maison Neue Mono';
-	src: url('MaisonNeue-Mono.woff2') format('woff2'),
-		url('MaisonNeue-Mono.woff') format('woff'),
-		url('MaisonNeue-Mono.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
+  font-family: 'Maison Neue Mono';
+  src: url('MaisonNeue-Mono.woff2') format('woff2'),
+    url('MaisonNeue-Mono.woff') format('woff'),
+    url('MaisonNeue-Mono.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-	font-family: 'Maison Neue Mono';
-	src: url('MaisonNeue-MonoItalic.woff2') format('woff2'),
-		url('MaisonNeue-MonoItalic.woff') format('woff'),
-		url('MaisonNeue-MonoItalic.ttf') format('truetype');
-	font-weight: normal;
-	font-style: italic;
+  font-family: 'Maison Neue Mono';
+  src: url('MaisonNeue-MonoItalic.woff2') format('woff2'),
+    url('MaisonNeue-MonoItalic.woff') format('woff'),
+    url('MaisonNeue-MonoItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 /*@font-face {
