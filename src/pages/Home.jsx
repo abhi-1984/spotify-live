@@ -18,9 +18,9 @@ const HomeWrapper = styled.div`
   width: 100%;
   height: 100vh;
   display: grid;
-  grid-template-rows: 80px minmax(50vh, 1fr) 48px 48px;
-  grid-row-gap: 40px;
-  grid-template-areas: 'header' 'player' 'seeker' 'controls' 'spacer';
+  grid-template-rows: 80px 200px 48px 48px 200px;
+  grid-row-gap: 56px;
+  grid-template-areas: 'header' 'player' 'seeker' 'controls' 'next-tracks';
 `;
 
 const PlayerView = styled(motion.div)`
@@ -29,28 +29,20 @@ const PlayerView = styled(motion.div)`
 `;
 
 const WrapperView = styled.div`
-  max-width: 96vw;
+  max-width: 800px;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  height: 100%;
-`;
-
-const PlayerDetailsView = styled.div`
-  flex: 1;
-  padding-left: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 40px;
   height: 100%;
 `;
 
 const CurrentTrackDetails = styled.div`
-  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+  grid-column: 1 / span 5;
 `;
 
 const TrackInfo = styled.div`
@@ -59,11 +51,10 @@ const TrackInfo = styled.div`
 `;
 
 const TrackName = styled.h1`
-  font-size: 40px;
+  font-size: 32px;
   line-height: 48px;
   font-weight: 600;
-  margin-bottom: 4px;
-  width: 480px;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -72,8 +63,8 @@ const TrackName = styled.h1`
 const AlbumName = styled.p`
   font-size: 24px;
   line-height: 32px;
-  opacity: 0.7;
-  width: 480px;
+  opacity: 0.8;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -82,16 +73,16 @@ const AlbumName = styled.p`
 const SpotifyButton = styled(motion.a)`
   all: unset;
   cursor: pointer;
-  border-radius: 24px;
-  width: 148px;
-  height: 48px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 600;
+  font-weight: 400;
+  text-decoration: underline;
+`;
+
+const CoverArt = styled.img`
+  height: 100%;
+  border-radius: 4px;
+  grid-column: 6 / span 2;
 `;
 
 const SeekerView = styled.div`
@@ -103,33 +94,10 @@ const ControlsView = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 96vw;
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
   position: relative;
-`;
-
-const CoverArt = styled.img`
-  height: 100%;
-  border-radius: 4px;
-`;
-
-const NextTracks = styled(motion.div)``;
-
-const Caption = styled.div`
-  font-size: 16px;
-  line-height: 16px;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  font-weight: 600;
-  opacity: 0.4;
-`;
-
-const NextTracksWrapper = styled.div`
-  display: grid;
-  grid-gap: 40px;
-  grid-template-columns: repeat(2, minmax(240px, 1fr));
 `;
 
 const DurationSlider = styled(Slider)``;
@@ -148,7 +116,7 @@ const TotalDuration = styled.div`
 `;
 
 const Wrapper = styled.div`
-  max-width: 96vw;
+  max-width: 800px;
   margin: 0 auto;
   height: 100%;
   display: grid;
@@ -222,6 +190,32 @@ const VolumeControl = styled.div`
   }
 `;
 
+const ArtistName = styled.div`
+  font-size: 16px;
+  line-height: 24px;
+  opacity: 0.6;
+  margin-top: 8px;
+`;
+
+const NextTracksView = styled.div`
+  grid-area: next-tracks;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  border-radius: 4px;
+  padding: 24px;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+`;
+
+const Caption = styled.div`
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+`;
+
 export default function Home({
   avatar,
   currentTrack,
@@ -258,7 +252,6 @@ export default function Home({
   return (
     <HomeWrapper>
       <Header toggleSidebar={toggleSidebar} avatarSource={avatar} />
-      {console.log('from home ', topTracks)}
       <AnimatePresence>
         {isSiderbarOpen && (
           <Sidebar
@@ -276,45 +269,29 @@ export default function Home({
         initial={{ opacity: 0, scale: 0.9 }}
       >
         <WrapperView>
+          <CurrentTrackDetails>
+            <TrackInfo>
+              <TrackName>{currentTrack.name}</TrackName>
+              <AlbumName>{currentTrack.album.name}</AlbumName>
+              <ArtistName>
+                {currentTrack.artists
+                  .map(artist => {
+                    return artist.name;
+                  })
+                  .join(', ')}
+              </ArtistName>
+            </TrackInfo>
+            <SpotifyButton
+              whileTap={{
+                scale: 0.96,
+              }}
+              target="_blank"
+              href={`https://open.spotify.com/track/${currentTrack.id}`}
+            >
+              Open in Spotify
+            </SpotifyButton>
+          </CurrentTrackDetails>
           <CoverArt src={currentTrack.album.images[2].url} />
-          <PlayerDetailsView>
-            <CurrentTrackDetails>
-              <TrackInfo>
-                <TrackName>{currentTrack.name}</TrackName>
-                <AlbumName>{currentTrack.album.name}</AlbumName>
-              </TrackInfo>
-              <SpotifyButton
-                whileHover={{
-                  scale: 1.08,
-                  backgroundColor: '#fff',
-                  color: '#000',
-                  borderColor: '#fff',
-                }}
-                whileTap={{
-                  scale: 0.96,
-                }}
-                target="_blank"
-                href={`https://open.spotify.com/track/${currentTrack.id}`}
-              >
-                Open in Spotify
-              </SpotifyButton>
-            </CurrentTrackDetails>
-            <NextTracks>
-              {console.log('next tracks are', nextTracks)}
-              <Caption>Up Next</Caption>
-              <NextTracksWrapper>
-                {nextTracks.map(track => (
-                  <Track
-                    key={track.id}
-                    trackName={track.name}
-                    trackCover={track.album.images[2].url}
-                    trackAlbum={track.album.name}
-                    trackDuration={track.duration_ms}
-                  />
-                ))}
-              </NextTracksWrapper>
-            </NextTracks>
-          </PlayerDetailsView>
         </WrapperView>
       </PlayerView>
 
@@ -343,7 +320,7 @@ export default function Home({
           <RepeatButtonIcon>
             <RepeatIcon />
           </RepeatButtonIcon>
-          <RepeatButtonLabel>On Repeat</RepeatButtonLabel>
+          <RepeatButtonLabel>Once More</RepeatButtonLabel>
         </RepeatButton>
         <ControlGroup>
           <Control
@@ -377,6 +354,20 @@ export default function Home({
           />
         </VolumeControl>
       </ControlsView>
+
+      <NextTracksView>
+        <Caption>Up Next</Caption>
+        {nextTracks.map(track => (
+          <Track
+            key={track.id}
+            trackName={track.name}
+            trackCover={track.album.images[2].url}
+            trackAlbum={track.album.name}
+            trackDuration={track.duration_ms}
+            trackArtists={track.artists}
+          />
+        ))}
+      </NextTracksView>
     </HomeWrapper>
   );
 }

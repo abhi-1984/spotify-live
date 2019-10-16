@@ -18,6 +18,17 @@ export const SidebarExpanderIcon = props => (
   </svg>
 );
 
+export const MenuIcon = props => (
+  <svg width={12} height={10} fill="none" {...props}>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M.833 0a.833.833 0 100 1.667h10.334a.833.833 0 000-1.667H.833zm0 8.333a.833.833 0 000 1.667h10.334a.833.833 0 000-1.667H.833z"
+      fill="#fff"
+    />
+  </svg>
+);
+
 export const PauseIcon = props => (
   <svg width={41} height={40} fill="none" {...props}>
     <path
