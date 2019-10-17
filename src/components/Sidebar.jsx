@@ -6,7 +6,7 @@ const SidebarWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
   right: 0;
-  width: 100vw;
+  width: 360px;
   bottom: 0;
   backdrop-filter: blur(10px);
   background-color: rgba(0, 0, 0, 0.9);
@@ -14,9 +14,9 @@ const SidebarWrapper = styled(motion.div)`
 `;
 
 const SidebarHeader = styled.div`
-  max-width: 80%;
-  height: 64px;
-  margin: 0 auto;
+  width: 100%;
+  height: 80px;
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,30 +45,26 @@ const CloseView = styled(motion.div)`
 `;
 
 const SidebarBody = styled(motion.div)`
-  max-width: 80%;
-  margin: 0 auto;
-  height: calc(100% - 64px);
+  width: 100%;
+  height: calc(100% - 80px);
   overflow-y: scroll;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  grid-auto-flow: row;
-  grid-gap: 40px;
 `;
 
 const TrackRow = styled(motion.div)`
   width: 100%;
   padding: 16px;
   cursor: pointer;
-
+  background-color: rgba(255, 255, 255, 0);
   display: grid;
-  grid-template-rows: auto 1fr;
-  border-radius: 4px;
+  grid-template-columns: 48px 1fr;
   grid-gap: 16px;
 `;
 
 const TrackCover = styled.img`
-  height: 240px;
+  width: 48px;
+  height: 48px;
   border-radius: 4px;
+  margin-right: 16px;
 `;
 
 const TrackInfo = styled.div`
@@ -81,24 +77,16 @@ const TrackName = styled.div`
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 240px;
 `;
 
 const TrackArtist = styled.div`
   font-size: 14px;
   line-height: 20px;
   opacity: 0.6;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: 240px;
 `;
 
 const Tabs = styled.div`
-  max-width: 80%;
+  width: 100%;
   margin: 16px auto;
   margin-top: 20px;
   height: 40px;
@@ -188,9 +176,9 @@ export default function Sidebar({
 
   return (
     <SidebarWrapper
-      initial={{ scale: 0.92, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.92, opacity: 0 }}
+      initial={{ x: '100%' }}
+      animate={{ x: 0 }}
+      exit={{ x: '100%' }}
       transition={{ duration: 0.3 }}
     >
       <SidebarHeader>
@@ -226,7 +214,7 @@ export default function Sidebar({
           favouriteTracks.map((track, index) => (
             <TrackRow
               whileHover={{
-                scale: 1.04,
+                backgroundColor: 'rgba(255,255,255,0.08)',
               }}
               whileTap={{
                 scale: 0.95,
@@ -235,7 +223,7 @@ export default function Sidebar({
               key={index}
               onClick={() => playTracks(favouriteTrackURIS, track.track.uri)}
             >
-              <TrackCover src={track.track.album.images[0].url} />
+              <TrackCover src={track.track.album.images[2].url} />
               <TrackInfo>
                 <TrackName>{track.track.name}</TrackName>
                 <TrackArtist>
@@ -248,7 +236,7 @@ export default function Sidebar({
           topTracks.map((track, index) => (
             <TrackRow
               whileHover={{
-                scale: 1.04,
+                backgroundColor: 'rgba(255,255,255,0.08)',
               }}
               whileTap={{
                 scale: 0.95,
@@ -257,7 +245,7 @@ export default function Sidebar({
               key={index}
               onClick={() => playTracks(topTracksURIS, track.uri)}
             >
-              <TrackCover src={track.album.images[0].url} />
+              <TrackCover src={track.album.images[2].url} />
               <TrackInfo>
                 <TrackName>{track.name}</TrackName>
                 <TrackArtist>

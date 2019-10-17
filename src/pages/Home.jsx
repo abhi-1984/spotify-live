@@ -80,7 +80,7 @@ const SpotifyButton = styled(motion.a)`
   text-decoration: underline;
 `;
 
-const CoverArt = styled.img`
+const CoverArt = styled(motion.img)`
   height: 100%;
   border-radius: 4px;
   grid-column: 6 / span 2;
@@ -205,7 +205,6 @@ const NextTracksView = styled.div`
   border-radius: 4px;
   padding: 24px;
   max-width: 800px;
-  width: 100%;
   margin: 0 auto;
 `;
 
@@ -216,6 +215,11 @@ const Caption = styled.div`
   text-transform: uppercase;
   margin-bottom: 20px;
 `;
+
+const coverVariant = {
+  playing: { scale: 1.1 },
+  stopped: { scale: 1 },
+};
 
 export default function Home({
   avatar,
@@ -292,7 +296,13 @@ export default function Home({
               Open in Spotify
             </SpotifyButton>
           </CurrentTrackDetails>
-          <CoverArt src={currentTrack.album.images[2].url} />
+          <CoverArt
+            initial="stopped"
+            animate={isPlaying ? 'playing' : 'stopped'}
+            variants={coverVariant}
+            transition={{ duration: 0.2 }}
+            src={currentTrack.album.images[2].url}
+          />
         </WrapperView>
       </PlayerView>
 
