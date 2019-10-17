@@ -34,7 +34,6 @@ const WrapperView = styled.div`
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-gap: 40px;
   height: 100%;
 `;
 
@@ -217,11 +216,6 @@ const Caption = styled.div`
   margin-bottom: 20px;
 `;
 
-const coverVariant = {
-  playing: { scale: 1.1 },
-  stopped: { scale: 1 },
-};
-
 export default function Home({
   avatar,
   currentTrack,
@@ -297,13 +291,7 @@ export default function Home({
               Open in Spotify
             </SpotifyButton>
           </CurrentTrackDetails>
-          <CoverArt
-            initial="stopped"
-            animate={isPlaying ? 'playing' : 'stopped'}
-            variants={coverVariant}
-            transition={{ duration: 0.2 }}
-            src={currentTrack.album.images[2].url}
-          />
+          <CoverArt src={currentTrack.album.images[2].url} />
         </WrapperView>
       </PlayerView>
 

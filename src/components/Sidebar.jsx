@@ -9,7 +9,7 @@ const SidebarWrapper = styled(motion.div)`
   width: 320px;
   bottom: 0;
   backdrop-filter: blur(10px);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 10;
 `;
 
