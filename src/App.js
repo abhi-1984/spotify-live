@@ -259,7 +259,7 @@ export default class App extends React.Component {
     this.player.setVolume(volume);
   };
 
-  repeatSong = uri => {
+  toggleRepeat = uri => {
     fetch('https://api.spotify.com/v1/me/player/repeat?state=track', {
       method: 'PUT',
       headers: {
@@ -337,6 +337,34 @@ export default class App extends React.Component {
     });
   };
 
+  handleRepeat = () => {
+    const { isRepeatModeOn, playingInfo } = this.state;
+
+    if (!isRepeatModeOn) {
+      fetch('https://api.spotify.com/v1/me/player/repeat?state=track', {
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${this.state.token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          device_ids: [this.state.deviceId],
+        }),
+      }).then(this.setState({ isRepeatModeOn: true }));
+    } else {
+      fetch('https://api.spotify.com/v1/me/player/repeat?state=off', {
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${this.state.token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          device_ids: [this.state.deviceId],
+        }),
+      }).then(this.setState({ isRepeatModeOn: false }));
+    }
+  };
+
   componentDidMount() {
     this.setupUserAndAccessToken();
   }
@@ -374,9 +402,7 @@ export default class App extends React.Component {
                 onVolumeChange={this.onVolumeSliderChange}
                 onSeek={this.onSeekSliderChange}
                 isRepeatModeOn={isRepeatModeOn}
-                handleRepeat={() =>
-                  this.repeatSong(playingInfo.track_window.current_track.uri)
-                }
+                handleRepeat={() => this.handleRepeat()}
                 toggleSidebar={this.toggleSidebar}
                 handlePreviousClick={this.onPrevClick}
                 handleNextClick={this.onNextClick}

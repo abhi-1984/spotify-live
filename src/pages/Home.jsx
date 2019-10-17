@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,6 +13,7 @@ import {
   VolumeIcon,
 } from '../components/Icons';
 import Sidebar from '../components/Sidebar';
+import { MorphReplace } from 'react-svg-morph';
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -335,7 +336,13 @@ export default function Home({
             whileTap={{ scale: 0.96 }}
             onClick={handleTogglePlay}
           >
-            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+            <MorphReplace width={48} height={48}>
+              {isPlaying ? (
+                <PauseIcon key={isPlaying} />
+              ) : (
+                <PlayIcon key={'playIcon'} />
+              )}
+            </MorphReplace>
           </Control>
           <Control
             whileHover={{ scale: 1.08 }}
