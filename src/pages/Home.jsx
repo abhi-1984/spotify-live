@@ -30,7 +30,7 @@ const PlayerView = styled(motion.div)`
 `;
 
 const WrapperView = styled.div`
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -95,7 +95,7 @@ const ControlsView = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 800px;
+  max-width: 720px;
   width: 100%;
   margin: 0 auto;
   position: relative;
@@ -117,7 +117,7 @@ const TotalDuration = styled.div`
 `;
 
 const Wrapper = styled.div`
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
   height: 100%;
   display: grid;
@@ -204,8 +204,9 @@ const NextTracksView = styled.div`
   backdrop-filter: blur(20px);
   border-radius: 4px;
   padding: 24px;
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
+  width: 100%;
 `;
 
 const Caption = styled.div`

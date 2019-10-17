@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const TrackWrapper = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 48px 2fr 1fr 80px;
+  grid-template-columns: 48px 1fr 80px;
   align-items: center;
   grid-gap: 16px;
   margin-bottom: 20px;
@@ -32,15 +32,13 @@ const TrackAlbum = styled.div`
   font-size: 16px;
   line-height: 24px;
   opacity: 0.7;
-  width: 320px;
+  /* width: 320px; */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 const TrackInfo = styled.div``;
-
-const TrackArtists = styled.div``;
 
 const TrackDuration = styled.div`
   text-align: right;
@@ -66,9 +64,6 @@ export default function Track({
         <TrackName>{trackName}</TrackName>
         <TrackAlbum>{trackAlbum}</TrackAlbum>
       </TrackInfo>
-      <TrackArtists>
-        {trackArtists.map(artist => artist.name).join(', ')}
-      </TrackArtists>
 
       <TrackDuration>{milisToMinutesAndSeconds(trackDuration)}</TrackDuration>
     </TrackWrapper>

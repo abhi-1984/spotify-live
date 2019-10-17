@@ -6,7 +6,7 @@ const SidebarWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
   right: 0;
-  width: 360px;
+  width: 320px;
   bottom: 0;
   backdrop-filter: blur(10px);
   background-color: rgba(0, 0, 0, 0.9);

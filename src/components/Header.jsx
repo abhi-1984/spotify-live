@@ -10,7 +10,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const Wrapper = styled.div`
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
   height: 100%;
   display: flex;
