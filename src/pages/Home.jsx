@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Header from '../components/Header';
-import { motion, AnimatePresence } from 'framer-motion';
-import Track from '../components/Track';
-import { Slider } from '@material-ui/core';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Header from "../components/Header";
+import { motion, AnimatePresence } from "framer-motion";
+import Track from "../components/Track";
+import { Slider } from "@material-ui/core";
 import {
   PauseIcon,
   PlayIcon,
   PreviousIcon,
   NextIcon,
   RepeatIcon,
-  VolumeIcon,
-} from '../components/Icons';
-import Sidebar from '../components/Sidebar';
-import { MorphReplace } from 'react-svg-morph';
+  VolumeIcon
+} from "../components/Icons";
+import Sidebar from "../components/Sidebar";
+import { MorphReplace } from "react-svg-morph";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -21,7 +21,7 @@ const HomeWrapper = styled.div`
   display: grid;
   grid-template-rows: 80px 200px 48px 48px 200px;
   grid-row-gap: 56px;
-  grid-template-areas: 'header' 'player' 'seeker' 'controls' 'next-tracks';
+  grid-template-areas: "header" "player" "seeker" "controls" "next-tracks";
 `;
 
 const PlayerView = styled(motion.div)`
@@ -198,14 +198,17 @@ const ArtistName = styled.div`
 `;
 
 const NextTracksView = styled.div`
-  grid-area: next-tracks;
+  width: 100%;
+`;
+
+const NextTracksWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(20px);
   border-radius: 4px;
   padding: 24px;
+  grid-area: next-tracks;
   max-width: 720px;
   margin: 0 auto;
-  width: 100%;
 `;
 
 const Caption = styled.div`
@@ -239,7 +242,7 @@ export default function Home({
   isSiderbarOpen,
   topTracks,
   topTracksURIS,
-  setBackgroundImage,
+  setBackgroundImage
 }) {
   const onRepeatButtonPressed = () => {
     handleRepeat();
@@ -278,12 +281,12 @@ export default function Home({
                   .map(artist => {
                     return artist.name;
                   })
-                  .join(', ')}
+                  .join(", ")}
               </ArtistName>
             </TrackInfo>
             <SpotifyButton
               whileTap={{
-                scale: 0.96,
+                scale: 0.96
               }}
               target="_blank"
               href={`https://open.spotify.com/track/${currentTrack.id}`}
@@ -306,14 +309,14 @@ export default function Home({
         <RepeatButton
           whileHover={{
             scale: 1.08,
-            backgroundColor: '#fff',
-            color: '#000',
-            borderColor: '#fff',
+            backgroundColor: "#fff",
+            color: "#000",
+            borderColor: "#fff"
           }}
           whileTap={{
-            scale: 0.96,
+            scale: 0.96
           }}
-          className={`${isRepeatModeOn && 'active'}`}
+          className={`${isRepeatModeOn && "active"}`}
           isRepeatModeOn={isRepeatModeOn}
           onClick={() => onRepeatButtonPressed()}
         >
@@ -339,7 +342,7 @@ export default function Home({
               {isPlaying ? (
                 <PauseIcon key={isPlaying} />
               ) : (
-                <PlayIcon key={'playIcon'} />
+                <PlayIcon key={"playIcon"} />
               )}
             </MorphReplace>
           </Control>
@@ -362,17 +365,19 @@ export default function Home({
       </ControlsView>
 
       <NextTracksView>
-        <Caption>Up Next</Caption>
-        {nextTracks.map(track => (
-          <Track
-            key={track.id}
-            trackName={track.name}
-            trackCover={track.album.images[2].url}
-            trackAlbum={track.album.name}
-            trackDuration={track.duration_ms}
-            trackArtists={track.artists}
-          />
-        ))}
+        <NextTracksWrapper>
+          <Caption>Up Next</Caption>
+          {nextTracks.map(track => (
+            <Track
+              key={track.id}
+              trackName={track.name}
+              trackCover={track.album.images[2].url}
+              trackAlbum={track.album.name}
+              trackDuration={track.duration_ms}
+              trackArtists={track.artists}
+            />
+          ))}
+        </NextTracksWrapper>
       </NextTracksView>
     </HomeWrapper>
   );
