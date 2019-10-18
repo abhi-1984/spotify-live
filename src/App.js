@@ -6,6 +6,7 @@ import { SpotifyApiContext } from 'react-spotify-api';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Vibrant from 'node-vibrant';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 const AppWrapper = styled.div`
   min-width: 100vw;
@@ -126,10 +127,11 @@ export default class App extends React.Component {
             this.fetchUserTracks();
             this.fetchTopTracks();
           })
+
           .catch(err => console.log(err));
       } else {
         window.location = window.location.href =
-          'https://accounts.spotify.com/authorize?client_id=1de3c263e4104300871dc8963f1314dc&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-modify-playback-state%20user-read-private%20user-read-email%20user-read-playback-state&response_type=token&redirect_uri=http://localhost:3000/';
+          'https://accounts.spotify.com/authorize?client_id=1de3c263e4104300871dc8963f1314dc&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-modify-playback-state%20user-read-private%20user-read-email%20user-read-playback-state&response_type=token&redirect_uri=http://localhost:3000/home/';
       }
     }
   };
@@ -390,41 +392,47 @@ export default class App extends React.Component {
     } = this.state;
 
     return (
-      <SpotifyApiContext.Provider value={token}>
-        <AppWrapper backDrop={backDrop}>
-          {isLoggedIn && this.player && playingInfo ? (
-            <Fragment>
-              <Home
-                currentPosition={positionTimestamp}
-                sliderPositionValue={positionSliderValue}
-                currentvolume={volumeSliderValue}
-                setBackgroundImage={this.setBackgroundImage}
-                onVolumeChange={this.onVolumeSliderChange}
-                onSeek={this.onSeekSliderChange}
-                isRepeatModeOn={isRepeatModeOn}
-                handleRepeat={() => this.handleRepeat()}
-                toggleSidebar={this.toggleSidebar}
-                handlePreviousClick={this.onPrevClick}
-                handleNextClick={this.onNextClick}
-                handleTogglePlay={this.onPlayClick}
-                totalDuration={durationTimestamp}
-                isPlaying={playing}
-                nextTracks={playingInfo.track_window.next_tracks}
-                currentTrack={playingInfo.track_window.current_track}
-                avatar={user.avatar}
-                favouriteTrackURIS={favouriteTrackURIS}
-                favouriteTracks={favouriteTracks}
-                token={token}
-                isSiderbarOpen={isSiderbarOpen}
-                topTracks={topTracks}
-                topTracksURIS={topTracksURIS}
-              />
-            </Fragment>
-          ) : (
-            <Login />
-          )}
-        </AppWrapper>
-      </SpotifyApiContext.Provider>
+      <Switch>
+        <SpotifyApiContext.Provider value={token}>
+          <AppWrapper backDrop={backDrop}>
+            {isLoggedIn && this.player && playingInfo ? (
+              <Fragment>
+                <Route exact path="/home">
+                  <Home
+                    currentPosition={positionTimestamp}
+                    sliderPositionValue={positionSliderValue}
+                    currentvolume={volumeSliderValue}
+                    setBackgroundImage={this.setBackgroundImage}
+                    onVolumeChange={this.onVolumeSliderChange}
+                    onSeek={this.onSeekSliderChange}
+                    isRepeatModeOn={isRepeatModeOn}
+                    handleRepeat={() => this.handleRepeat()}
+                    toggleSidebar={this.toggleSidebar}
+                    handlePreviousClick={this.onPrevClick}
+                    handleNextClick={this.onNextClick}
+                    handleTogglePlay={this.onPlayClick}
+                    totalDuration={durationTimestamp}
+                    isPlaying={playing}
+                    nextTracks={playingInfo.track_window.next_tracks}
+                    currentTrack={playingInfo.track_window.current_track}
+                    avatar={user.avatar}
+                    favouriteTrackURIS={favouriteTrackURIS}
+                    favouriteTracks={favouriteTracks}
+                    token={token}
+                    isSiderbarOpen={isSiderbarOpen}
+                    topTracks={topTracks}
+                    topTracksURIS={topTracksURIS}
+                  />
+                </Route>
+              </Fragment>
+            ) : (
+              <Route path="/login" exact>
+                <Login />
+              </Route>
+            )}
+          </AppWrapper>
+        </SpotifyApiContext.Provider>
+      </Switch>
     );
   }
 }
